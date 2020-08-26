@@ -13,8 +13,9 @@ class App extends Component {
       indexSelected: 0,
       indexCompleted: 0,
       swaps: 0,
-      traversals: 0,
+      comparisons: 0,
       sortInProgress: false,
+      skip: false,
       array: this.randomArray(30),
     };
   }
@@ -27,19 +28,33 @@ class App extends Component {
     return arr;
   }
 
-  changeSort = () => {
-    this.setState({
-      sortingMethod: document.getElementById("sortingMethod").value,
-    });
+  changeSort = async () => {
+    if (!this.state.sortInProgress) {
+      this.setState({
+        sortingMethod: document.getElementById("sortingMethod").value,
+      });
+      await this.sleep(100);
+      this.newArray();
+    } else {
+      await this.sleep(1000);
+      this.changeSort();
+    }
   };
 
-  newArray = () => {
+  skip = () => {
+    this.setState({ skip: true });
+  };
+
+  newArray = async () => {
     this.setState({ array: this.randomArray(this.state.arraySize) });
     this.setState({ indexSelected: 0 });
-    this.setState({ indexCompleted: 0 });
+    this.state.sortingMethod === "Bubble Sort"
+      ? this.setState({ indexCompleted: this.state.arraySize })
+      : this.setState({ indexCompleted: 0 });
     this.setState({ swaps: 0 });
-    this.setState({ traversals: 0 });
+    this.setState({ comparisons: 0 });
 
+    console.log(this.state);
     this.forceUpdate();
   };
 
@@ -67,6 +82,7 @@ class App extends Component {
   };
 
   selectionSort = async () => {
+    document.getElementById("skip").onclick = this.skip;
     var arr = this.state.array;
     var min = 2500;
     var minIndex = 0;
@@ -79,9 +95,11 @@ class App extends Component {
           minIndex = k;
         }
         this.setState({ indexSelected: k });
-        this.setState({ traversals: this.state.traversals + 1 });
+        this.setState({ comparisons: this.state.comparisons + 1 });
         this.forceUpdate();
-        await this.sleep();
+        if (!this.state.skip) {
+          await this.sleep(1);
+        }
       }
 
       [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
@@ -92,16 +110,80 @@ class App extends Component {
     }
     this.setState({ indexSelected: this.state.indexSelected + 1 });
     this.setState({ sortInProgress: false });
+    this.setState({ skip: false });
+    document.getElementById("skip").onclick = null;
     this.forceUpdate();
     console.log(this.state);
   };
 
   insertionSort = async () => {
-    console.log("Insert Work In Progress");
+    document.getElementById("skip").onclick = this.skip;
+    var arr = this.state.array;
+    for (var i = 1; i < this.state.arraySize; i++) {
+      this.setState({ indexSelected: i });
+      for (var k = i; k >= 0; k--) {
+        if (arr[k] <= arr[k - 1]) {
+          [arr[k], arr[k - 1]] = [arr[k - 1], arr[k]];
+          this.setState({ array: arr });
+          this.setState({ indexSelected: k });
+          this.setState({ comparisons: this.state.comparisons + 1 });
+          this.setState({ swaps: this.state.swaps + 1 });
+          if (!this.state.skip) {
+            await this.sleep(5);
+          }
+
+          this.forceUpdate();
+        } else {
+          this.setState({ comparisons: this.state.comparisons + 1 });
+          this.setState({ indexCompleted: this.state.indexCompleted + 1 });
+          this.setState();
+          break;
+        }
+      }
+    }
+    this.setState({ indexSelected: i });
+    this.setState({ indexCompleted: i });
+    this.setState({ sortInProgress: false });
+    this.setState({ skip: false });
+    document.getElementById("skip").onclick = null;
+    this.forceUpdate();
+    console.log(this.state);
   };
+
   bubbleSort = async () => {
-    console.log("Bubble Work In Progress");
+    document.getElementById("skip").onclick = this.skip;
+    var arr = this.state.array;
+    var index = this.state.arraySize;
+    var swapped = true;
+    this.setState({ indexCompleted: index });
+    while (swapped) {
+      swapped = false;
+      this.setState({ indexCompleted: index });
+      for (var i = 0; i < index - 1; i++) {
+        if (arr[i] > arr[i + 1]) {
+          [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+          this.setState({ swaps: this.state.swaps + 1 });
+          swapped = true;
+        }
+        this.setState({ indexSelected: i });
+        this.setState({ comparisons: this.state.comparisons + 1 });
+        if (!this.state.skip) {
+          await this.sleep(5);
+        }
+        this.forceUpdate();
+      }
+      index -= 1;
+    }
+    this.setState({ array: arr });
+    this.setState({ indexSelected: -1 });
+    this.setState({ indexCompleted: 0 });
+    this.setState({ sortInProgress: false });
+    this.setState({ skip: false });
+    document.getElementById("skip").onclick = null;
+    this.forceUpdate();
+    console.log(this.state);
   };
+
   mergeSort = async () => {
     console.log("Merge Work In Progress");
   };
@@ -126,6 +208,7 @@ class App extends Component {
           <button onClick={this.state.sortInProgress ? null : this.newArray}>
             New Array
           </button>
+          <button id="skip">Skip</button>
           <button onClick={this.state.sortInProgress ? null : this.sort}>
             Sort!
           </button>
@@ -138,7 +221,8 @@ class App extends Component {
           indexSelected={this.state.indexSelected}
           indexCompleted={this.state.indexCompleted}
           swaps={this.state.swaps}
-          traversals={this.state.traversals}
+          comparisons={this.state.comparisons}
+          sortingMethod={this.state.sortingMethod}
         />
       </>
     );

@@ -15,6 +15,10 @@ class GenerateBars extends Component {
                 backgroundColor:
                   index === this.props.indexSelected
                     ? "red"
+                    : this.props.sortingMethod === "Bubble Sort"
+                    ? index >= this.props.indexCompleted
+                      ? "green"
+                      : "white"
                     : index < this.props.indexCompleted
                     ? "green"
                     : "white",
@@ -29,7 +33,7 @@ class GenerateBars extends Component {
 
         <div>
           <h3>Swaps = {this.props.swaps}</h3>
-          <h3>Traversals = {this.props.traversals}</h3>
+          <h3>Comparisons = {this.props.comparisons}</h3>
         </div>
       </>
     );

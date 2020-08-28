@@ -1,7 +1,61 @@
-#selected {
-  background-color: green;
+body {
+  margin: 0;
+}
+#root {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr 9fr;
+
+  .featureBar {
+    grid-column: 1/13;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background-color: lightgray;
+    .title {
+      grid-column: 1/5;
+      background-color: darkgray;
+    }
+    .features {
+      grid-column: 5/13;
+    }
+  }
+
+  .algorithmDescriptions {
+    grid-column: 1/5;
+    background-color: gray;
+  }
+
+  .bars {
+    grid-column: 5/13;
+    background-color: black;
+
+    #selected {
+      background-color: green;
+    }
+    .data {
+      background-color: lightgray;
+    }
+  }
 }
 
-h1 {
-  color: blue;
+@media screen and (max-width: 768px) {
+  #root {
+    grid-template-rows: 2fr 6fr 2fr;
+    .featureBar,
+    .algorithmDescriptions,
+    .bars {
+      grid-column: 1/13;
+    }
+
+    .featureBar {
+      .title,
+      .features {
+        grid-column: 1/13;
+      }
+    }
+    .algorithmDescriptions {
+      grid-row: 3;
+    }
+  }
 }

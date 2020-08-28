@@ -1,4 +1,84 @@
-h1 {
-  color: blue;
+body {
+  margin: 0;
+}
+
+#root {
+  display: -ms-grid;
+  display: grid;
+  height: 100vh;
+  -ms-grid-columns: (1fr)[12];
+      grid-template-columns: repeat(12, 1fr);
+  -ms-grid-rows: 1fr 9fr;
+      grid-template-rows: 1fr 9fr;
+}
+
+#root .featureBar {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 12;
+  grid-column: 1/13;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[12];
+      grid-template-columns: repeat(12, 1fr);
+  background-color: lightgray;
+}
+
+#root .featureBar .title {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 4;
+  grid-column: 1/5;
+  background-color: darkgray;
+}
+
+#root .featureBar .features {
+  -ms-grid-column: 5;
+  -ms-grid-column-span: 8;
+  grid-column: 5/13;
+}
+
+#root .algorithmDescriptions {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 4;
+  grid-column: 1/5;
+  background-color: gray;
+}
+
+#root .bars {
+  -ms-grid-column: 5;
+  -ms-grid-column-span: 8;
+  grid-column: 5/13;
+  background-color: black;
+}
+
+#root .bars #selected {
+  background-color: green;
+}
+
+#root .bars .data {
+  background-color: lightgray;
+}
+
+@media screen and (max-width: 768px) {
+  #root {
+    -ms-grid-rows: 2fr 6fr 2fr;
+        grid-template-rows: 2fr 6fr 2fr;
+  }
+  #root .featureBar,
+  #root .algorithmDescriptions,
+  #root .bars {
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 12;
+    grid-column: 1/13;
+  }
+  #root .featureBar .title,
+  #root .featureBar .features {
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 12;
+    grid-column: 1/13;
+  }
+  #root .algorithmDescriptions {
+    -ms-grid-row: 3;
+    grid-row: 3;
+  }
 }
 /*# sourceMappingURL=styles.css.map */

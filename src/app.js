@@ -84,7 +84,7 @@ class App extends Component {
   };
 
   sleep(ms) {
-    return new Promise((resolve) => setInterval(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   sort = () => {
@@ -114,7 +114,7 @@ class App extends Component {
     } else if (this.state.speed === "moderate") {
       speed = 10;
     } else {
-      speed = 20;
+      speed = 40;
     }
     var arr = this.state.array;
     var min = 2500;
@@ -197,7 +197,7 @@ class App extends Component {
     } else if (this.state.speed === "moderate") {
       speed = 10;
     } else {
-      speed = 100;
+      speed = 30;
     }
     var arr = this.state.array;
     var index = this.state.arraySize;
@@ -233,13 +233,75 @@ class App extends Component {
 
   mergeSort = async () => {
     document.getElementById("skip").onclick = this.skip;
+    var speed;
+    if (this.state.speed === "fast") {
+      speed = 0;
+    } else if (this.state.speed === "moderate") {
+      speed = 10;
+    } else {
+      speed = 100;
+    }
+
     var arr = this.state.array;
-    function merge() {}
+    const merge = async (l, r, a) => {
+      var i = 0;
+      var j = 0;
+      var k = 0;
+      while (i < l.length && j < r.length) {
+        if (l[i] <= r[j]) {
+          a[k] = l[i];
+          i += 1;
+        } else {
+          a[k] = r[j];
+          j += 1;
+        }
+        k += 1;
+      }
+
+      while (i < l.length) {
+        a[k] = l[i];
+        i += 1;
+        k += 1;
+      }
+      while (j < r.length) {
+        a[k] = r[j];
+        j += 1;
+        k += 1;
+      }
+    };
+
+    const mergeSort2 = async (a) => {
+      var len = a.length;
+      if (len < 2) {
+        return;
+      }
+
+      var mid = Math.floor(len / 2);
+      var l = [];
+      var r = [];
+      for (var i = 0; i < mid; i++) {
+        l[i] = a[i];
+      }
+      for (var j = 0; j < len - mid; j++) {
+        r[j] = a[j + mid];
+      }
+
+      mergeSort2(l);
+      mergeSort2(r);
+      merge(l, r, a);
+      this.setState({ array: arr });
+      this.forceUpdate();
+    };
+
+    mergeSort2(arr);
 
     document.getElementById("skip").onclick = null;
+    this.setState({ sortInProgress: false });
+    this.setState({ skip: false });
     this.forceUpdate();
     console.log(this.state);
   };
+
   quickSort = async () => {
     console.log("Quick Work In Progress");
   };
@@ -262,11 +324,9 @@ class App extends Component {
               <option value="Quick Sort">Quick Sort</option>
               <option value="Heap Sort">Heap Sort</option>
             </select>
-            <select id="size" onChange={this.changeSize}>
+            <select id="size" defaultValue="30" onChange={this.changeSize}>
               <option value="10">10</option>
-              <option value="30" selected="selected">
-                30
-              </option>
+              <option value="30">30</option>
               <option value="50">50</option>
             </select>
             <select id="speed" onChange={this.changeSpeed}>

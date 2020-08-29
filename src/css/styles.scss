@@ -3,6 +3,7 @@ body {
 }
 #root {
   display: grid;
+  overflow-y: hidden;
   height: 100vh;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 1fr 9fr;
@@ -26,15 +27,31 @@ body {
     background-color: gray;
   }
 
-  .bars {
+  .animation {
+    display: grid;
     grid-column: 5/13;
-    background-color: black;
+    align-items: bottom;
+    grid-template-rows: 1fr 9fr;
+    .bars {
+      background-color: black;
+      display: grid;
+      align-items: center;
+      justify-items: center;
 
-    #selected {
-      background-color: green;
+      .alignBottom {
+        grid-column: 1/13;
+
+        border-bottom: orange;
+        border-style: solid;
+        border-width: 5px;
+      }
+      #selected {
+        background-color: green;
+      }
     }
+
     .data {
-      background-color: lightgray;
+      background-color: orange;
     }
   }
 }
@@ -42,9 +59,10 @@ body {
 @media screen and (max-width: 768px) {
   #root {
     grid-template-rows: 2fr 6fr 2fr;
+    overflow-y: visible;
     .featureBar,
     .algorithmDescriptions,
-    .bars {
+    .animation {
       grid-column: 1/13;
     }
 

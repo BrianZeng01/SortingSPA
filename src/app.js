@@ -8,17 +8,17 @@ class App extends Component {
     super();
 
     this.state = {
-      arraySize: 30,
-      speed: "fast",
+      arraySize: 10,
+      speed: 0,
       width: "10px",
-      sortingMethod: "Selection Sort",
+      sortingMethod: "Quick Sort",
       indexSelected: 0,
       indexCompleted: 0,
       swaps: 0,
       comparisons: 0,
       sortInProgress: false,
       skip: false,
-      array: this.randomArray(30),
+      array: this.randomArray(10),
     };
   }
   randomArray(size) {
@@ -89,34 +89,24 @@ class App extends Component {
 
   sort = () => {
     this.setState({ sortInProgress: true });
+    document.getElementById("skip").onclick = this.skip;
 
     var method = this.state.sortingMethod;
+    var arr = this.state.array;
     if (method === "Selection Sort") {
-      this.selectionSort();
+      this.selectionSort(arr);
     } else if (method === "Insertion Sort") {
-      this.insertionSort();
+      this.insertionSort(arr);
     } else if (method === "Bubble Sort") {
-      this.bubbleSort();
+      this.bubbleSort(arr);
     } else if (method === "Merge Sort") {
-      this.mergeSort();
-    } else if (method === "Quick Sort") {
-      this.quickSort();
+      this.mergeSort(arr, 1);
     } else {
-      this.heapSort();
+      this.quickSort(arr, 0, this.state.arraySize - 1);
     }
   };
 
-  selectionSort = async () => {
-    document.getElementById("skip").onclick = this.skip;
-    var speed;
-    if (this.state.speed === "fast") {
-      speed = 0;
-    } else if (this.state.speed === "moderate") {
-      speed = 10;
-    } else {
-      speed = 40;
-    }
-    var arr = this.state.array;
+  selectionSort = async (arr) => {
     var min = 2500;
     var minIndex = 0;
     for (var i = 0; i < arr.length; i++) {
@@ -127,11 +117,11 @@ class App extends Component {
           min = arr[k];
           minIndex = k;
         }
-        this.setState({ indexSelected: k });
         this.setState({ comparisons: this.state.comparisons + 1 });
-        this.forceUpdate();
+        this.setState({ indexSelected: k });
         if (!this.state.skip) {
-          await this.sleep(speed);
+          await this.sleep(this.state.speed);
+          this.forceUpdate();
         }
       }
 
@@ -149,17 +139,9 @@ class App extends Component {
     console.log(this.state);
   };
 
-  insertionSort = async () => {
+  insertionSort = async (arr) => {
     document.getElementById("skip").onclick = this.skip;
-    var speed;
-    if (this.state.speed === "fast") {
-      speed = 0;
-    } else if (this.state.speed === "moderate") {
-      speed = 10;
-    } else {
-      speed = 30;
-    }
-    var arr = this.state.array;
+
     for (var i = 1; i < this.state.arraySize; i++) {
       this.setState({ indexSelected: i });
       for (var k = i; k >= 0; k--) {
@@ -170,10 +152,9 @@ class App extends Component {
           this.setState({ indexSelected: k });
           this.setState({ swaps: this.state.swaps + 1 });
           if (!this.state.skip) {
-            await this.sleep(speed);
+            await this.sleep(this.state.speed);
+            this.forceUpdate();
           }
-
-          this.forceUpdate();
         } else {
           break;
         }
@@ -189,17 +170,7 @@ class App extends Component {
     console.log(this.state);
   };
 
-  bubbleSort = async () => {
-    document.getElementById("skip").onclick = this.skip;
-    var speed;
-    if (this.state.speed === "fast") {
-      speed = 0;
-    } else if (this.state.speed === "moderate") {
-      speed = 10;
-    } else {
-      speed = 30;
-    }
-    var arr = this.state.array;
+  bubbleSort = async (arr) => {
     var index = this.state.arraySize;
     var swapped = true;
     this.setState({ indexCompleted: index });
@@ -212,12 +183,12 @@ class App extends Component {
           this.setState({ swaps: this.state.swaps + 1 });
           swapped = true;
         }
-        this.setState({ indexSelected: i });
         this.setState({ comparisons: this.state.comparisons + 1 });
         if (!this.state.skip) {
-          await this.sleep(speed);
+          await this.sleep(this.state.speed);
+          this.setState({ indexSelected: i });
+          this.forceUpdate();
         }
-        this.forceUpdate();
       }
       index -= 1;
     }
@@ -231,82 +202,75 @@ class App extends Component {
     console.log(this.state);
   };
 
-  mergeSort = async () => {
-    document.getElementById("skip").onclick = this.skip;
-    var speed;
-    if (this.state.speed === "fast") {
-      speed = 0;
-    } else if (this.state.speed === "moderate") {
-      speed = 10;
-    } else {
-      speed = 100;
-    }
-
-    var arr = this.state.array;
-    const merge = async (l, r, a) => {
+  mergeSort = async (arr, time) => {
+    const merge = async (l, r, arr) => {
       var i = 0;
       var j = 0;
       var k = 0;
-      while (i < l.length && j < r.length) {
-        if (l[i] <= r[j]) {
-          a[k] = l[i];
+      while (i < l.length || j < r.length) {
+        if (i >= l.length) {
+          arr[k] = r[j];
+          j += 1;
+        } else if (j >= r.length) {
+          arr[k] = l[i];
+          i += 1;
+        } else if (l[i] <= r[j]) {
+          arr[k] = l[i];
           i += 1;
         } else {
-          a[k] = r[j];
+          arr[k] = r[j];
           j += 1;
         }
-        k += 1;
-      }
 
-      while (i < l.length) {
-        a[k] = l[i];
-        i += 1;
-        k += 1;
-      }
-      while (j < r.length) {
-        a[k] = r[j];
-        j += 1;
+        this.setState({ comparisons: this.state.comparisons + 1 });
         k += 1;
       }
     };
 
-    const mergeSort2 = async (a) => {
-      var len = a.length;
-      if (len < 2) {
-        return;
-      }
+    var len = arr.length;
+    var mid = Math.floor(len / 2);
+    if (len < 2) {
+      return;
+    }
 
-      var mid = Math.floor(len / 2);
-      var l = [];
-      var r = [];
-      for (var i = 0; i < mid; i++) {
-        l[i] = a[i];
-      }
-      for (var j = 0; j < len - mid; j++) {
-        r[j] = a[j + mid];
-      }
+    var l = arr.slice(0, mid);
+    var r = arr.slice(mid, len);
 
-      mergeSort2(l);
-      mergeSort2(r);
-      merge(l, r, a);
-      this.setState({ array: arr });
-      this.forceUpdate();
-    };
-
-    mergeSort2(arr);
+    this.mergeSort(l, time + 2);
+    this.mergeSort(r, time + 3);
+    merge(l, r, arr);
+    this.setState({ array: arr });
 
     document.getElementById("skip").onclick = null;
     this.setState({ sortInProgress: false });
     this.setState({ skip: false });
     this.forceUpdate();
-    console.log(this.state);
   };
 
-  quickSort = async () => {
-    console.log("Quick Work In Progress");
+  partition = (arr, start, end) => {
+    var pivot = arr[end];
+    var index = start;
+    for (var i = start; i < end; i++) {
+      if (arr[i] <= pivot) {
+        [arr[i], arr[index]] = [arr[index], arr[i]];
+        index += 1;
+      }
+    }
+    [arr[index], arr[end]] = [arr[end], arr[index]];
+    return index;
   };
-  heapSort = async () => {
-    console.log("Heap Work In Progress");
+
+  quickSort = async (arr, start, end) => {
+    if (start < end) {
+      var pIndex = this.partition(arr, start, end);
+      this.quickSort(arr, start, pIndex - 1);
+      this.quickSort(arr, pIndex + 1, end);
+      this.setState({ array: arr });
+      this.setState({ sortInProgress: false });
+      this.setState({ skip: false });
+      this.forceUpdate();
+      console.log(this.state);
+    }
   };
   render() {
     return (
@@ -322,7 +286,6 @@ class App extends Component {
               <option value="Bubble Sort">Bubble Sort</option>
               <option value="Merge Sort">Merge Sort</option>
               <option value="Quick Sort">Quick Sort</option>
-              <option value="Heap Sort">Heap Sort</option>
             </select>
             <select id="size" defaultValue="30" onChange={this.changeSize}>
               <option value="10">10</option>
@@ -330,9 +293,9 @@ class App extends Component {
               <option value="50">50</option>
             </select>
             <select id="speed" onChange={this.changeSpeed}>
-              <option value="fast">Fast</option>
-              <option value="moderate">Moderate</option>
-              <option value="slow">Slow</option>
+              <option value="0">Fast</option>
+              <option value="10">Moderate</option>
+              <option value="30">Slow</option>
             </select>
             <button onClick={this.state.sortInProgress ? null : this.newArray}>
               New Array

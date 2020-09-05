@@ -7,7 +7,15 @@ class GenerateBars extends Component {
         <div className="animation">
           <div className="data">
             <h3>Swaps = {this.props.swaps}</h3>
-            <h3>Comparisons = {this.props.comparisons}</h3>
+            <h3 style={{ display: "inline" }}>
+              Comparisons = {this.props.comparisons}
+            </h3>
+            {this.props.sortingMethod === "Merge Sort" ||
+            this.props.sortingMethod === "Quick Sort" ? (
+              <p style={{ float: "right", margin: "0", marginRight: "1em" }}>
+                Animation Incomplete
+              </p>
+            ) : null}
           </div>
           <div className="bars">
             <div className="alignBottom">

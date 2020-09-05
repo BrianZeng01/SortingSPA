@@ -8,7 +8,7 @@ class App extends Component {
     super();
 
     this.state = {
-      arraySize: 10,
+      arraySize: 30,
       speed: 0,
       width: "10px",
       sortingMethod: "Quick Sort",
@@ -18,7 +18,7 @@ class App extends Component {
       comparisons: 0,
       sortInProgress: false,
       skip: false,
-      array: this.randomArray(10),
+      array: this.randomArray(30),
     };
   }
   randomArray(size) {
@@ -202,31 +202,31 @@ class App extends Component {
     console.log(this.state);
   };
 
-  mergeSort = async (arr, time) => {
-    const merge = async (l, r, arr) => {
-      var i = 0;
-      var j = 0;
-      var k = 0;
-      while (i < l.length || j < r.length) {
-        if (i >= l.length) {
-          arr[k] = r[j];
-          j += 1;
-        } else if (j >= r.length) {
-          arr[k] = l[i];
-          i += 1;
-        } else if (l[i] <= r[j]) {
-          arr[k] = l[i];
-          i += 1;
-        } else {
-          arr[k] = r[j];
-          j += 1;
-        }
-
-        this.setState({ comparisons: this.state.comparisons + 1 });
-        k += 1;
+  merge = (l, r, arr) => {
+    var i = 0;
+    var j = 0;
+    var k = 0;
+    while (i < l.length || j < r.length) {
+      if (i >= l.length) {
+        arr[k] = r[j];
+        j += 1;
+      } else if (j >= r.length) {
+        arr[k] = l[i];
+        i += 1;
+      } else if (l[i] <= r[j]) {
+        arr[k] = l[i];
+        i += 1;
+      } else {
+        arr[k] = r[j];
+        j += 1;
       }
-    };
 
+      this.setState({ comparisons: this.state.comparisons + 1 });
+      k += 1;
+    }
+  };
+
+  mergeSort = async (arr, time) => {
     var len = arr.length;
     var mid = Math.floor(len / 2);
     if (len < 2) {
@@ -238,7 +238,7 @@ class App extends Component {
 
     this.mergeSort(l, time + 2);
     this.mergeSort(r, time + 3);
-    merge(l, r, arr);
+    this.merge(l, r, arr);
     this.setState({ array: arr });
 
     document.getElementById("skip").onclick = null;
@@ -255,22 +255,28 @@ class App extends Component {
         [arr[i], arr[index]] = [arr[index], arr[i]];
         index += 1;
       }
+      this.setState({ comparisons: this.state.comparisons + 1 });
+      this.setState({ swaps: this.state.swaps + 1 });
     }
     [arr[index], arr[end]] = [arr[end], arr[index]];
+    this.setState({ swaps: this.state.swaps + 1 });
+    this.setState({ array: arr });
+    this.setState({ indexSelected: index });
+    this.forceUpdate();
     return index;
   };
 
   quickSort = async (arr, start, end) => {
     if (start < end) {
       var pIndex = this.partition(arr, start, end);
+      await this.sleep(this.state.speed * 20 + 200);
       this.quickSort(arr, start, pIndex - 1);
       this.quickSort(arr, pIndex + 1, end);
       this.setState({ array: arr });
-      this.setState({ sortInProgress: false });
-      this.setState({ skip: false });
       this.forceUpdate();
       console.log(this.state);
     }
+    this.setState({ sortInProgress: false });
   };
   render() {
     return (

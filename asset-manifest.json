@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/SortingSPA/static/css/main.b54c98c0.chunk.css",
+    "main.js": "/SortingSPA/static/js/main.91275302.chunk.js",
+    "main.js.map": "/SortingSPA/static/js/main.91275302.chunk.js.map",
+    "runtime-main.js": "/SortingSPA/static/js/runtime-main.90548e9b.js",
+    "runtime-main.js.map": "/SortingSPA/static/js/runtime-main.90548e9b.js.map",
+    "static/js/2.84533ce9.chunk.js": "/SortingSPA/static/js/2.84533ce9.chunk.js",
+    "static/js/2.84533ce9.chunk.js.map": "/SortingSPA/static/js/2.84533ce9.chunk.js.map",
+    "index.html": "/SortingSPA/index.html",
+    "precache-manifest.f12dd1deeed3bdc5ebf093a197528cda.js": "/SortingSPA/precache-manifest.f12dd1deeed3bdc5ebf093a197528cda.js",
+    "service-worker.js": "/SortingSPA/service-worker.js",
+    "static/css/main.b54c98c0.chunk.css.map": "/SortingSPA/static/css/main.b54c98c0.chunk.css.map",
+    "static/js/2.84533ce9.chunk.js.LICENSE.txt": "/SortingSPA/static/js/2.84533ce9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.90548e9b.js",
+    "static/js/2.84533ce9.chunk.js",
+    "static/css/main.b54c98c0.chunk.css",
+    "static/js/main.91275302.chunk.js"
+  ]
+}

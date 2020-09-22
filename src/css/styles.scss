@@ -10,21 +10,57 @@ body {
 
   .featureBar {
     grid-column: 1/13;
+    color: white;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    background-color: lightgray;
+    background-image: linear-gradient(
+      to top,
+      black,
+      rgba(197, 180, 180, 0.301)
+    );
+    text-align: center;
+    align-content: center;
     .title {
+      vertical-align: middle;
       grid-column: 1/5;
-      background-color: darkgray;
+      align-content: center;
+      display: grid;
+      h1 {
+        font-size: 2.5em;
+      }
     }
     .features {
       grid-column: 5/13;
+      padding-top: 1em;
+      .feature {
+        margin: 1em;
+        font-size: 1em;
+      }
+      button {
+        border-radius: 1em;
+        outline: none;
+        width: 100px;
+      }
+      button:hover {
+        background-color: rgb(102, 219, 102);
+      }
+      #sort {
+        width: 150px;
+        font-size: 1.5em;
+      }
     }
   }
 
   .algorithmDescriptions {
+    color: white;
+    padding-left: 1em;
     grid-column: 1/5;
     background-color: gray;
+    background-image: linear-gradient(
+      to bottom left,
+      black,
+      rgba(77, 73, 73, 0.301)
+    );
   }
 
   .animation {
@@ -32,26 +68,30 @@ body {
     grid-column: 5/13;
     align-items: bottom;
     grid-template-rows: 1fr 9fr;
+    background-image: linear-gradient(
+      to bottom right,
+      black,
+      rgba(77, 73, 73, 0.301)
+    );
     .bars {
-      background-color: black;
       display: grid;
       align-items: center;
       justify-items: center;
 
       .alignBottom {
         grid-column: 1/13;
-
-        border-bottom: orange;
-        border-style: solid;
+        border-bottom: solid;
         border-width: 5px;
+        border-color: white;
       }
       #selected {
-        background-color: green;
+        background-color: rgb(150, 209, 150);
       }
     }
 
     .data {
-      background-color: orange;
+      color: white;
+      padding-left: 1em;
     }
   }
 }

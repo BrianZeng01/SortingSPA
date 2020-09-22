@@ -17,31 +17,69 @@ body {
   -ms-grid-column: 1;
   -ms-grid-column-span: 12;
   grid-column: 1/13;
+  color: white;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
-  background-color: lightgray;
+  background-image: -webkit-gradient(linear, left bottom, left top, from(black), to(rgba(197, 180, 180, 0.301)));
+  background-image: linear-gradient(to top, black, rgba(197, 180, 180, 0.301));
+  text-align: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
 }
 
 #root .featureBar .title {
+  vertical-align: middle;
   -ms-grid-column: 1;
   -ms-grid-column-span: 4;
   grid-column: 1/5;
-  background-color: darkgray;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  display: -ms-grid;
+  display: grid;
+}
+
+#root .featureBar .title h1 {
+  font-size: 2.5em;
 }
 
 #root .featureBar .features {
   -ms-grid-column: 5;
   -ms-grid-column-span: 8;
   grid-column: 5/13;
+  padding-top: 1em;
+}
+
+#root .featureBar .features .feature {
+  margin: 1em;
+  font-size: 1em;
+}
+
+#root .featureBar .features button {
+  border-radius: 1em;
+  outline: none;
+  width: 100px;
+}
+
+#root .featureBar .features button:hover {
+  background-color: #66db66;
+}
+
+#root .featureBar .features #sort {
+  width: 150px;
+  font-size: 1.5em;
 }
 
 #root .algorithmDescriptions {
+  color: white;
+  padding-left: 1em;
   -ms-grid-column: 1;
   -ms-grid-column-span: 4;
   grid-column: 1/5;
   background-color: gray;
+  background-image: -webkit-gradient(linear, right top, left bottom, from(black), to(rgba(77, 73, 73, 0.301)));
+  background-image: linear-gradient(to bottom left, black, rgba(77, 73, 73, 0.301));
 }
 
 #root .animation {
@@ -55,10 +93,11 @@ body {
           align-items: bottom;
   -ms-grid-rows: 1fr 9fr;
       grid-template-rows: 1fr 9fr;
+  background-image: -webkit-gradient(linear, left top, right bottom, from(black), to(rgba(77, 73, 73, 0.301)));
+  background-image: linear-gradient(to bottom right, black, rgba(77, 73, 73, 0.301));
 }
 
 #root .animation .bars {
-  background-color: black;
   display: -ms-grid;
   display: grid;
   -webkit-box-align: center;
@@ -71,17 +110,18 @@ body {
   -ms-grid-column: 1;
   -ms-grid-column-span: 12;
   grid-column: 1/13;
-  border-bottom: orange;
-  border-style: solid;
+  border-bottom: solid;
   border-width: 5px;
+  border-color: white;
 }
 
 #root .animation .bars #selected {
-  background-color: green;
+  background-color: #96d196;
 }
 
 #root .animation .data {
-  background-color: orange;
+  color: white;
+  padding-left: 1em;
 }
 
 @media screen and (max-width: 768px) {

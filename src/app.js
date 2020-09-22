@@ -11,7 +11,7 @@ class App extends Component {
       arraySize: 30,
       speed: 0,
       width: "10px",
-      sortingMethod: "Quick Sort",
+      sortingMethod: "Selection Sort",
       indexSelected: 0,
       indexCompleted: 0,
       swaps: 0,
@@ -87,9 +87,16 @@ class App extends Component {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  sort = () => {
+  sort = async () => {
+    this.setState({ swaps: 0 });
+    this.setState({ comparisons: 0 });
     this.setState({ sortInProgress: true });
+    this.setState({ indexSelected: 0 });
+    this.state.sortingMethod === "Bubble Sort"
+      ? this.setState({ indexCompleted: this.state.arraySize })
+      : this.setState({ indexCompleted: 0 });
     document.getElementById("skip").onclick = this.skip;
+    await this.sleep();
 
     var method = this.state.sortingMethod;
     var arr = this.state.array;
@@ -202,7 +209,7 @@ class App extends Component {
     console.log(this.state);
   };
 
-  merge = (l, r, arr) => {
+  merge = async (l, r, arr) => {
     var i = 0;
     var j = 0;
     var k = 0;
@@ -222,11 +229,12 @@ class App extends Component {
       }
 
       this.setState({ comparisons: this.state.comparisons + 1 });
+      await this.sleep(15);
       k += 1;
     }
   };
 
-  mergeSort = async (arr, time) => {
+  mergeSort = async (arr) => {
     var len = arr.length;
     var mid = Math.floor(len / 2);
     if (len < 2) {
@@ -236,8 +244,8 @@ class App extends Component {
     var l = arr.slice(0, mid);
     var r = arr.slice(mid, len);
 
-    this.mergeSort(l, time + 2);
-    this.mergeSort(r, time + 3);
+    this.mergeSort(l);
+    this.mergeSort(r);
     this.merge(l, r, arr);
     this.setState({ array: arr });
 
@@ -286,28 +294,47 @@ class App extends Component {
             <h1>Sorting Visualizer</h1>
           </div>
           <div className="features">
-            <select id="sortingMethod" onChange={this.changeSort}>
+            <select
+              className="feature"
+              id="sortingMethod"
+              onChange={this.changeSort}
+            >
               <option value="Selection Sort">Selection Sort</option>
               <option value="Insertion Sort">Insertion Sort</option>
               <option value="Bubble Sort">Bubble Sort</option>
               <option value="Merge Sort">Merge Sort</option>
               <option value="Quick Sort">Quick Sort</option>
             </select>
-            <select id="size" defaultValue="30" onChange={this.changeSize}>
+            <select
+              className="feature"
+              id="size"
+              defaultValue="30"
+              onChange={this.changeSize}
+            >
               <option value="10">10</option>
               <option value="30">30</option>
               <option value="50">50</option>
             </select>
-            <select id="speed" onChange={this.changeSpeed}>
+            <select className="feature" id="speed" onChange={this.changeSpeed}>
               <option value="0">Fast</option>
               <option value="10">Moderate</option>
               <option value="30">Slow</option>
             </select>
-            <button onClick={this.state.sortInProgress ? null : this.newArray}>
+            <button
+              className="feature"
+              onClick={this.state.sortInProgress ? null : this.newArray}
+            >
               New Array
             </button>
-            <button id="skip">Skip</button>
-            <button onClick={this.state.sortInProgress ? null : this.sort}>
+            <button className="feature" id="skip">
+              Skip
+            </button>
+            <br></br>
+            <button
+              className="feature"
+              id="sort"
+              onClick={this.state.sortInProgress ? null : this.sort}
+            >
               Sort!
             </button>
           </div>

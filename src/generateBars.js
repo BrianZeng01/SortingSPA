@@ -12,9 +12,9 @@ class GenerateBars extends Component {
             </h3>
             {this.props.sortingMethod === "Merge Sort" ||
             this.props.sortingMethod === "Quick Sort" ? (
-              <p style={{ float: "right", margin: "0", marginRight: "1em" }}>
-                Animation Incomplete
-              </p>
+              <h3 style={{ display: "inline", marginLeft: "2em" }}>
+                **Animation Incomplete**
+              </h3>
             ) : null}
           </div>
           <div className="bars">
@@ -25,13 +25,13 @@ class GenerateBars extends Component {
                   style={{
                     backgroundColor:
                       index === this.props.indexSelected
-                        ? "red"
+                        ? "#ef4c4c"
                         : this.props.sortingMethod === "Bubble Sort"
                         ? index >= this.props.indexCompleted
-                          ? "green"
+                          ? "#62e562"
                           : "white"
                         : index < this.props.indexCompleted
-                        ? "green"
+                        ? "#62e562"
                         : "white",
                     width: this.props.width,
                     height: vertical * 5,

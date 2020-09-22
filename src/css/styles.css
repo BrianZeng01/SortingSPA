@@ -1,4 +1,5 @@
 body {
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
 }
 
@@ -17,13 +18,18 @@ body {
   -ms-grid-column: 1;
   -ms-grid-column-span: 12;
   grid-column: 1/13;
+  padding-top: 1em;
+  padding-bottom: 1.5em;
   color: white;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
-  background-image: -webkit-gradient(linear, left bottom, left top, from(black), to(rgba(197, 180, 180, 0.301)));
-  background-image: linear-gradient(to top, black, rgba(197, 180, 180, 0.301));
+  border-bottom: solid;
+  border-color: red;
+  border-width: 5px;
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#252323), color-stop(rgba(70, 67, 67, 0.267)), to(#252323));
+  background-image: linear-gradient(to top, #252323, rgba(70, 67, 67, 0.267), #252323);
   text-align: center;
   -ms-flex-line-pack: center;
       align-content: center;
@@ -56,22 +62,26 @@ body {
   font-size: 1em;
 }
 
+#root .featureBar .features label {
+  font-weight: bold;
+}
+
 #root .featureBar .features button {
+  font-weight: bold;
   border-radius: 1em;
   outline: none;
-  width: 100px;
+  width: 125px;
 }
 
 #root .featureBar .features button:hover {
   background-color: #66db66;
-}
-
-#root .featureBar .features #sort {
-  width: 150px;
-  font-size: 1.5em;
+  font-style: italic;
 }
 
 #root .algorithmDescriptions {
+  border-right: solid;
+  border-width: 5px;
+  border-color: red;
   color: white;
   padding-left: 1em;
   -ms-grid-column: 1;
@@ -146,6 +156,10 @@ body {
   #root .algorithmDescriptions {
     -ms-grid-row: 3;
     grid-row: 3;
+    border-right: none;
+    border-top: solid;
+    border-color: red;
+    border-width: 5px;
   }
 }
 /*# sourceMappingURL=styles.css.map */

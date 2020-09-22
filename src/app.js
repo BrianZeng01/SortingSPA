@@ -132,10 +132,12 @@ class App extends Component {
         }
       }
 
+      if (arr[i] !== arr[minIndex]) {
+        this.setState({ swaps: this.state.swaps + 1 });
+      }
       [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
       this.setState({ indexCompleted: this.state.indexCompleted + 1 });
       this.setState({ array: arr });
-      this.setState({ swaps: this.state.swaps + 1 });
       this.forceUpdate();
     }
     this.setState({ indexSelected: this.state.indexSelected + 1 });
@@ -153,17 +155,17 @@ class App extends Component {
       this.setState({ indexSelected: i });
       for (var k = i; k >= 0; k--) {
         this.setState({ comparisons: this.state.comparisons + 1 });
-        if (arr[k] <= arr[k - 1]) {
+        if (arr[k] < arr[k - 1]) {
           [arr[k], arr[k - 1]] = [arr[k - 1], arr[k]];
           this.setState({ array: arr });
           this.setState({ indexSelected: k });
           this.setState({ swaps: this.state.swaps + 1 });
-          if (!this.state.skip) {
-            await this.sleep(this.state.speed);
-            this.forceUpdate();
-          }
         } else {
           break;
+        }
+        if (!this.state.skip) {
+          await this.sleep(this.state.speed);
+          this.forceUpdate();
         }
       }
       this.setState({ indexCompleted: i + 2 });
@@ -294,6 +296,7 @@ class App extends Component {
             <h1>Sorting Visualizer</h1>
           </div>
           <div className="features">
+            <label htmlFor="sortingMethod">Sorting Method</label>
             <select
               className="feature"
               id="sortingMethod"
@@ -305,6 +308,7 @@ class App extends Component {
               <option value="Merge Sort">Merge Sort</option>
               <option value="Quick Sort">Quick Sort</option>
             </select>
+            <label htmlFor="size">Size</label>
             <select
               className="feature"
               id="size"
@@ -315,28 +319,30 @@ class App extends Component {
               <option value="30">30</option>
               <option value="50">50</option>
             </select>
+            <label htmlFor="speed">Speed</label>
             <select className="feature" id="speed" onChange={this.changeSpeed}>
               <option value="0">Fast</option>
               <option value="10">Moderate</option>
               <option value="30">Slow</option>
             </select>
-            <button
-              className="feature"
-              onClick={this.state.sortInProgress ? null : this.newArray}
-            >
-              New Array
-            </button>
-            <button className="feature" id="skip">
-              Skip
-            </button>
-            <br></br>
-            <button
-              className="feature"
-              id="sort"
-              onClick={this.state.sortInProgress ? null : this.sort}
-            >
-              Sort!
-            </button>
+            <div className="buttons">
+              <button
+                className="feature"
+                onClick={this.state.sortInProgress ? null : this.newArray}
+              >
+                New Array
+              </button>
+              <button className="feature" id="skip">
+                Skip
+              </button>
+              <button
+                className="feature"
+                id="sort"
+                onClick={this.state.sortInProgress ? null : this.sort}
+              >
+                Sort!
+              </button>
+            </div>
           </div>
         </div>
 

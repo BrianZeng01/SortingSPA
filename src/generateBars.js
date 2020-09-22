@@ -34,7 +34,7 @@ class GenerateBars extends Component {
                         ? "#62e562"
                         : "white",
                     width: this.props.width,
-                    height: vertical * 5,
+                    height: vertical * 6,
                     display: "inline-block",
                     marginRight: "2px",
                   }}

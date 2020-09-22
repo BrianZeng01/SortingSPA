@@ -1,3 +1,7 @@
+### TODO
+1.)Finish animation for merge and quick sort.<br />
+2.)Find a way to make animation faster than minimum setTimeout method.<br />
+
 <<<<<<< HEAD
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

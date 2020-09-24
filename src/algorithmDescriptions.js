@@ -41,7 +41,7 @@ class AlgorithmDescriptions extends Component {
       logic:
         "Like Selection Sort the given array is viewed as a sorted sublist and unsorted sublist. " +
         "The sorted sublist occupies the leftmost space and is built up as we traverse the given array. " +
-        "The given array is traversed once but every item is then sorted in the sorted sublist" +
+        "The given array is traversed once but every item is then sorted in the sorted sublist. " +
         "The selected element goes through the sorted sublist from right till left. " +
         "As it searches for where it belongs it swaps places with the elements that are greater " +
         "than itself until it finds the element that is less than or equal to it. " +
@@ -97,11 +97,11 @@ class AlgorithmDescriptions extends Component {
       logic:
         "We divide the array in two and sort them seperately then merge " +
         "the sorted sublists by comparing and taking the smallest element " +
-        "of the two sublists until they've both become merge to one. " +
+        "of the two sublists until they've both become merged to one. " +
         "Now how are these sublists sorted? By recursion! These sublists " +
         "are divided and merged together aswell. The sublists are divided " +
         "until there are a bunch of sublists 1 element long. One element " +
-        "arrays are already sorted thus the recursion stops here and " +
+        "arrays are already sorted thus the dividing stops here and " +
         "merging commences.",
       example:
         "Think of organizing a stack of 250 exams by grade. You'd " +
@@ -124,8 +124,8 @@ class AlgorithmDescriptions extends Component {
       logic:
         "Quicksort is a recursive and very popular sorting method. " +
         "It utilizes a divide and conquer method. " +
-        "Given an array a 'pivot' is selected this pivot is best selected at " +
-        "random but that is not a necessart condition. The array is then " +
+        "Given an array a 'pivot' is selected. This pivot is best selected at " +
+        "random but that is not a necessary condition. The array is then " +
         "partitioned so that all elements less than the pivot element are " +
         "on the left of it and elements greater or equal to the pivot " +
         "are on the right. Now the same thing is done to the left and right " +
@@ -146,22 +146,86 @@ class AlgorithmDescriptions extends Component {
   }
 
   description = (method) => {
+    var dict;
+    if (method === "Selection Sort") {
+      dict = this.state.selectionSort;
+    } else if (method === "Insertion Sort") {
+      dict = this.state.insertionSort;
+    } else if (method === "Bubble Sort") {
+      dict = this.state.bubbleSort;
+    } else if (method === "Merge Sort") {
+      dict = this.state.mergeSort;
+    } else {
+      dict = this.state.quickSort;
+    }
+
     return (
       <>
-        <div>{console.log(this.state[1])}</div>
+        <div className="algorithmDescriptions">
+          <div className="table">
+            <h1>{method}</h1>
+            <h3>Performance Complexities</h3>
+            <table>
+              <tbody>
+                <tr>
+                  <th></th>
+                  <th>Best Case</th>
+                  <th>Worst Case</th>
+                  <th>Average Case</th>
+                </tr>
+                <tr>
+                  <td>Time</td>
+                  <td>{dict.time[0]}</td>
+                  <td>{dict.time[1]}</td>
+                  <td>{dict.time[2]}</td>
+                </tr>
+                <tr>
+                  <td>Space</td>
+                  <td>{dict.space[0]}</td>
+                  <td>{dict.space[1]}</td>
+                  <td>{dict.space[2]}</td>
+                </tr>
+                <tr>
+                  <td>Swaps</td>
+                  <td>{dict.swaps[0]}</td>
+                  <td>{dict.swaps[1]}</td>
+                  <td>{dict.swaps[2]}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div className="pros">
+            <h3>Pros</h3>
+            <ul>
+              {dict.pros.map((arr, index) => {
+                return <li key={index}>{arr}</li>;
+              })}
+            </ul>
+          </div>
+          <div className="cons">
+            <h3>Cons</h3>
+            <ul>
+              {dict.cons.map((arr, index) => {
+                return <li key={index}>{arr}</li>;
+              })}
+            </ul>
+          </div>
+
+          <div className="paragraphs">
+            <h3>Logic</h3>
+            <p>{dict.logic}</p>
+
+            <h3>Real-life Example</h3>
+            <p>{dict.example}</p>
+          </div>
+        </div>
       </>
     );
   };
 
   render() {
-    return (
-      <>
-        <div className="algorithmDescriptions">
-          <h1>{this.props.sortingMethod}</h1>
-          {this.description(this.props.sortingMethod)}
-        </div>
-      </>
-    );
+    return <>{this.description(this.props.sortingMethod)}</>;
   }
 }
 

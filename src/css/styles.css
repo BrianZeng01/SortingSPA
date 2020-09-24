@@ -3,6 +3,21 @@ body {
   margin: 0;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px grey;
+          box-shadow: inset 0 0 5px grey;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #56ce56;
+  border-radius: 5px;
+}
+
 #root {
   display: -ms-grid;
   display: grid;
@@ -26,13 +41,17 @@ body {
   -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
   border-bottom: solid;
-  border-color: red;
+  border-color: #eb3333;
   border-width: 5px;
   background-image: -webkit-gradient(linear, left bottom, left top, from(#252323), color-stop(rgba(70, 67, 67, 0.267)), to(#252323));
   background-image: linear-gradient(to top, #252323, rgba(70, 67, 67, 0.267), #252323);
   text-align: center;
   -ms-flex-line-pack: center;
       align-content: center;
+}
+
+#root .featureBar div {
+  display: inline-block;
 }
 
 #root .featureBar .title {
@@ -47,7 +66,7 @@ body {
 }
 
 #root .featureBar .title h1 {
-  font-size: 2.5em;
+  font-size: 3.5em;
 }
 
 #root .featureBar .features {
@@ -55,11 +74,13 @@ body {
   -ms-grid-column-span: 8;
   grid-column: 5/13;
   padding-top: 1em;
+  font-size: 1.25em;
 }
 
 #root .featureBar .features .feature {
+  font-size: 1.25em;
   margin: 1em;
-  font-size: 1em;
+  margin-right: 4em;
 }
 
 #root .featureBar .features label {
@@ -70,7 +91,7 @@ body {
   font-weight: bold;
   border-radius: 1em;
   outline: none;
-  width: 125px;
+  width: 150px;
 }
 
 #root .featureBar .features button:hover {
@@ -79,17 +100,37 @@ body {
 }
 
 #root .algorithmDescriptions {
-  border-right: solid;
-  border-width: 5px;
-  border-color: red;
   color: white;
-  padding-left: 1em;
   -ms-grid-column: 1;
   -ms-grid-column-span: 4;
   grid-column: 1/5;
+  overflow-y: auto;
   background-color: gray;
   background-image: -webkit-gradient(linear, right top, left bottom, from(black), to(rgba(77, 73, 73, 0.301)));
   background-image: linear-gradient(to bottom left, black, rgba(77, 73, 73, 0.301));
+}
+
+#root .algorithmDescriptions div {
+  margin-left: 3em;
+  margin-right: 3em;
+  margin-bottom: 3em;
+}
+
+#root .algorithmDescriptions .pros {
+  color: #4bca4b;
+}
+
+#root .algorithmDescriptions .cons {
+  color: #eb3333;
+}
+
+#root .algorithmDescriptions .table table {
+  text-align: center;
+}
+
+#root .algorithmDescriptions .table table th {
+  padding-left: 0.5em;
+  font-weight: normal;
 }
 
 #root .animation {
@@ -103,6 +144,9 @@ body {
           align-items: bottom;
   -ms-grid-rows: 1fr 9fr;
       grid-template-rows: 1fr 9fr;
+  border-left: solid;
+  border-width: 5px;
+  border-color: #da4a4a;
   background-image: -webkit-gradient(linear, left top, right bottom, from(black), to(rgba(77, 73, 73, 0.301)));
   background-image: linear-gradient(to bottom right, black, rgba(77, 73, 73, 0.301));
 }
@@ -134,11 +178,28 @@ body {
   padding-left: 1em;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1300px) {
+  #root .featureBar .title h1 {
+    font-size: 2.5em;
+  }
+  #root .featureBar .features .feature {
+    font-size: 1em;
+    margin-right: 1em;
+  }
+  #root .featureBar .features button {
+    width: 125px;
+  }
+  #root .algorithmDescriptions div {
+    margin-right: 1em;
+    margin-left: 1em;
+  }
+}
+
+@media screen and (max-width: 900px) {
   #root {
-    -ms-grid-rows: 2fr 6fr 2fr;
-        grid-template-rows: 2fr 6fr 2fr;
-    overflow-y: visible;
+    -ms-grid-rows: auto;
+        grid-template-rows: auto;
+    overflow-y: scroll;
   }
   #root .featureBar,
   #root .algorithmDescriptions,
@@ -156,8 +217,15 @@ body {
   #root .algorithmDescriptions {
     -ms-grid-row: 3;
     grid-row: 3;
-    border-right: none;
-    border-top: solid;
+    overflow-y: visible;
+  }
+  #root .algorithmDescriptions div {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+  #root .animation {
+    border-left: none;
+    border-bottom: solid;
     border-color: red;
     border-width: 5px;
   }

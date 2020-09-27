@@ -19,6 +19,7 @@ class App extends Component {
       sortInProgress: false,
       skip: false,
       array: this.randomArray(30),
+      sortClicked: false,
     };
   }
   randomArray(size) {
@@ -30,15 +31,26 @@ class App extends Component {
     return arr;
   }
 
+  stateDefaults = () => {
+    this.setState({ indexSelected: 0 });
+    this.state.sortingMethod === "Bubble Sort"
+      ? this.setState({ indexCompleted: this.state.arraySize })
+      : this.setState({ indexCompleted: 0 });
+    this.setState({ swaps: 0 });
+    this.setState({ comparisons: 0 });
+  };
+
   changeSort = async () => {
     if (!this.state.sortInProgress) {
       this.setState({
         sortingMethod: document.getElementById("sortingMethod").value,
       });
-      await this.sleep(0);
-      this.newArray();
+      await this.sleep(20);
+      this.state.sortingMethod === "Bubble Sort"
+        ? this.setState({ indexCompleted: this.state.arraySize })
+        : this.setState({ indexCompleted: 0 });
     } else {
-      await this.sleep(1000);
+      await this.sleep(250);
       this.changeSort();
     }
   };
@@ -72,12 +84,7 @@ class App extends Component {
 
   newArray = async () => {
     this.setState({ array: this.randomArray(this.state.arraySize) });
-    this.setState({ indexSelected: 0 });
-    this.state.sortingMethod === "Bubble Sort"
-      ? this.setState({ indexCompleted: this.state.arraySize })
-      : this.setState({ indexCompleted: 0 });
-    this.setState({ swaps: 0 });
-    this.setState({ comparisons: 0 });
+    this.stateDefaults();
 
     console.log(this.state);
     this.forceUpdate();
@@ -88,13 +95,8 @@ class App extends Component {
   }
 
   sort = async () => {
-    this.setState({ swaps: 0 });
-    this.setState({ comparisons: 0 });
     this.setState({ sortInProgress: true });
-    this.setState({ indexSelected: 0 });
-    this.state.sortingMethod === "Bubble Sort"
-      ? this.setState({ indexCompleted: this.state.arraySize })
-      : this.setState({ indexCompleted: 0 });
+    this.stateDefaults();
     document.getElementById("skip").onclick = this.skip;
     await this.sleep();
 
@@ -128,7 +130,6 @@ class App extends Component {
         this.setState({ indexSelected: k });
         if (!this.state.skip) {
           await this.sleep(this.state.speed);
-          this.forceUpdate();
         }
       }
 
@@ -138,13 +139,11 @@ class App extends Component {
       [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
       this.setState({ indexCompleted: this.state.indexCompleted + 1 });
       this.setState({ array: arr });
-      this.forceUpdate();
     }
     this.setState({ indexSelected: this.state.indexSelected + 1 });
     this.setState({ sortInProgress: false });
     this.setState({ skip: false });
     document.getElementById("skip").onclick = null;
-    this.forceUpdate();
     console.log(this.state);
   };
 
@@ -169,13 +168,11 @@ class App extends Component {
         }
       }
       this.setState({ indexCompleted: i + 2 });
-      this.forceUpdate();
     }
     this.setState({ indexSelected: i });
     this.setState({ sortInProgress: false });
     this.setState({ skip: false });
     document.getElementById("skip").onclick = null;
-    this.forceUpdate();
     console.log(this.state);
   };
 
@@ -196,7 +193,6 @@ class App extends Component {
         if (!this.state.skip) {
           await this.sleep(this.state.speed);
           this.setState({ indexSelected: i });
-          this.forceUpdate();
         }
       }
       index -= 1;
@@ -207,7 +203,6 @@ class App extends Component {
     this.setState({ sortInProgress: false });
     this.setState({ skip: false });
     document.getElementById("skip").onclick = null;
-    this.forceUpdate();
     console.log(this.state);
   };
 
@@ -231,7 +226,7 @@ class App extends Component {
       }
 
       this.setState({ comparisons: this.state.comparisons + 1 });
-      await this.sleep(15);
+      await this.sleep(this.state.speed);
       k += 1;
     }
   };
@@ -254,7 +249,6 @@ class App extends Component {
     document.getElementById("skip").onclick = null;
     this.setState({ sortInProgress: false });
     this.setState({ skip: false });
-    this.forceUpdate();
   };
 
   partition = (arr, start, end) => {
@@ -272,7 +266,6 @@ class App extends Component {
     this.setState({ swaps: this.state.swaps + 1 });
     this.setState({ array: arr });
     this.setState({ indexSelected: index });
-    this.forceUpdate();
     return index;
   };
 
@@ -283,7 +276,6 @@ class App extends Component {
       this.quickSort(arr, start, pIndex - 1);
       this.quickSort(arr, pIndex + 1, end);
       this.setState({ array: arr });
-      this.forceUpdate();
       console.log(this.state);
     }
     this.setState({ sortInProgress: false });
@@ -296,35 +288,45 @@ class App extends Component {
             <h1>Sorting Visualizer</h1>
           </div>
           <div className="features">
-            <label htmlFor="sortingMethod">Sorting Method</label>
-            <select
-              className="feature"
-              id="sortingMethod"
-              onChange={this.changeSort}
-            >
-              <option value="Selection Sort">Selection Sort</option>
-              <option value="Insertion Sort">Insertion Sort</option>
-              <option value="Bubble Sort">Bubble Sort</option>
-              <option value="Merge Sort">Merge Sort</option>
-              <option value="Quick Sort">Quick Sort</option>
-            </select>
-            <label htmlFor="size">Size</label>
-            <select
-              className="feature"
-              id="size"
-              defaultValue="30"
-              onChange={this.changeSize}
-            >
-              <option value="10">10</option>
-              <option value="30">30</option>
-              <option value="50">50</option>
-            </select>
-            <label htmlFor="speed">Speed</label>
-            <select className="feature" id="speed" onChange={this.changeSpeed}>
-              <option value="0">Fast</option>
-              <option value="10">Moderate</option>
-              <option value="30">Slow</option>
-            </select>
+            <div>
+              <label htmlFor="sortingMethod">Sorting Method</label>
+              <select
+                className="feature"
+                id="sortingMethod"
+                onChange={this.changeSort}
+              >
+                <option value="Selection Sort">Selection Sort</option>
+                <option value="Insertion Sort">Insertion Sort</option>
+                <option value="Bubble Sort">Bubble Sort</option>
+                <option value="Merge Sort">Merge Sort</option>
+                <option value="Quick Sort">Quick Sort</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="size">Size</label>
+              <select
+                className="feature"
+                id="size"
+                defaultValue="30"
+                onChange={this.changeSize}
+              >
+                <option value="10">10</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="speed">Speed</label>
+              <select
+                className="feature"
+                id="speed"
+                onChange={this.changeSpeed}
+              >
+                <option value="0">Fast</option>
+                <option value="10">Moderate</option>
+                <option value="30">Slow</option>
+              </select>
+            </div>
             <div className="buttons">
               <button
                 className="feature"
@@ -346,7 +348,10 @@ class App extends Component {
           </div>
         </div>
 
-        <AlgorithmDescriptions sortingMethod={this.state.sortingMethod} />
+        <AlgorithmDescriptions
+          sortingMethod={this.state.sortingMethod}
+          shouldUpdate={this.state.sortClicked}
+        />
 
         <GenerateBars
           array={this.state.array}

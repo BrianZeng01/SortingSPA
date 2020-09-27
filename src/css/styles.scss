@@ -68,6 +68,7 @@ body {
         border-radius: 1em;
         outline: none;
         width: 150px;
+        background-color: white;
       }
       button:hover {
         background-color: rgb(102, 219, 102);
@@ -159,10 +160,6 @@ body {
         .feature {
           font-size: 1em;
           margin-right: 1em;
-        }
-
-        button {
-          width: 125px;
         }
       }
     }

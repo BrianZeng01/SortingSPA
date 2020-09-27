@@ -92,7 +92,10 @@ body {
   border-radius: 1em;
   outline: none;
   width: 150px;
+<<<<<<< HEAD
   background-color: white;
+=======
+>>>>>>> 8e5e8b86cf31d995dee917eeed00e237185e27b6
 }
 
 #root .featureBar .features button:hover {
@@ -187,6 +190,12 @@ body {
     font-size: 1em;
     margin-right: 1em;
   }
+<<<<<<< HEAD
+=======
+  #root .featureBar .features button {
+    width: 125px;
+  }
+>>>>>>> 8e5e8b86cf31d995dee917eeed00e237185e27b6
   #root .algorithmDescriptions div {
     margin-right: 1em;
     margin-left: 1em;

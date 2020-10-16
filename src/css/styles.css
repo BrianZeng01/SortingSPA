@@ -66,7 +66,7 @@ body {
 }
 
 #root .featureBar .title h1 {
-  font-size: 3.5em;
+  font-size: 3em;
 }
 
 #root .featureBar .features {
@@ -74,13 +74,13 @@ body {
   -ms-grid-column-span: 8;
   grid-column: 5/13;
   padding-top: 1em;
-  font-size: 1.25em;
+  font-size: 1.1em;
 }
 
 #root .featureBar .features .feature {
-  font-size: 1.25em;
+  font-size: 1.1em;
   margin: 1em;
-  margin-right: 4em;
+  margin-right: 3em;
 }
 
 #root .featureBar .features label {
@@ -132,6 +132,10 @@ body {
 #root .algorithmDescriptions .table table th {
   padding-left: 0.5em;
   font-weight: normal;
+}
+
+#root .algorithmDescriptions .paragraphs {
+  padding-bottom: 2em;
 }
 
 #root .animation {

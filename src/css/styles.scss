@@ -48,17 +48,17 @@ body {
       align-content: center;
       display: grid;
       h1 {
-        font-size: 3.5em;
+        font-size: 3em;
       }
     }
     .features {
       grid-column: 5/13;
       padding-top: 1em;
-      font-size: 1.25em;
+      font-size: 1.1em;
       .feature {
-        font-size: 1.25em;
+        font-size: 1.1em;
         margin: 1em;
-        margin-right: 4em;
+        margin-right: 3em;
       }
       label {
         font-weight: bold;
@@ -109,6 +109,10 @@ body {
           font-weight: normal;
         }
       }
+    }
+
+    .paragraphs {
+      padding-bottom: 2em;
     }
   }
 

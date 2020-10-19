@@ -1,9 +1,15 @@
 ### TODO
+
 1.)Finish animation for merge and quick sort.<br />
 2.)Find a way to make animation faster than minimum setTimeout method.<br />
 
-<<<<<<< HEAD
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Sources
+
+- Wikipedia
+- mycodeschool (Youtube)
+
+<br />
+  This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -70,7 +76,8 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 ### `npm run build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-=======
+# This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
 # SortingSPA
->>>>>>> b5aaf8dc2b5ebd7a9d250dcae84cd032a9ccf052
+
+> > > > > > > b5aaf8dc2b5ebd7a9d250dcae84cd032a9ccf052

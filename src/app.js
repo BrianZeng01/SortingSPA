@@ -157,7 +157,7 @@ class App extends Component {
         if (arr[k] < arr[k - 1]) {
           [arr[k], arr[k - 1]] = [arr[k - 1], arr[k]];
           this.setState({ array: arr });
-          this.setState({ indexSelected: k });
+          this.setState({ indexSelected: k - 1 });
           this.setState({ swaps: this.state.swaps + 1 });
         } else {
           break;
@@ -226,7 +226,10 @@ class App extends Component {
       }
 
       this.setState({ comparisons: this.state.comparisons + 1 });
-      await this.sleep(this.state.speed);
+      if (!this.state.skip) {
+        await this.sleep(this.state.speed);
+        this.forceUpdate();
+      }
       k += 1;
     }
   };
@@ -272,7 +275,10 @@ class App extends Component {
   quickSort = async (arr, start, end) => {
     if (start < end) {
       var pIndex = this.partition(arr, start, end);
-      await this.sleep(this.state.speed * 20 + 200);
+      if (!this.state.skip) {
+        await this.sleep(this.state.speed * 20 + 200);
+        this.forceUpdate();
+      }
       this.quickSort(arr, start, pIndex - 1);
       this.quickSort(arr, pIndex + 1, end);
       this.setState({ array: arr });

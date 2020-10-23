@@ -4,7 +4,7 @@ class AlgorithmDescriptions extends Component {
   constructor(props) {
     super(props);
     const selection = {
-      time: ["n", "n²", "n"],
+      time: ["n", "n²", "n²"],
       swaps: ["1", "n", "n"],
       space: ["1", "1", "1"],
       pros: [

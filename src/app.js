@@ -251,6 +251,7 @@ class App extends Component {
 
     document.getElementById("skip").onclick = null;
     this.setState({ sortInProgress: false });
+    this.setState({ indexCompleted: this.state.arraySize });
     this.setState({ skip: false });
   };
 
@@ -284,7 +285,10 @@ class App extends Component {
       this.setState({ array: arr });
       console.log(this.state);
     }
+    this.setState({ indexCompleted: this.state.arraySize });
     this.setState({ sortInProgress: false });
+    this.setState({ skip: false });
+    document.getElementById("skip").onclick = null;
   };
   render() {
     return (

@@ -110,7 +110,7 @@ class AlgorithmDescriptions extends Component {
     };
     const quick = {
       time: ["nlog(n)", "n²", "nlog(n)"],
-      swaps: ["X", "X", "X"],
+      swaps: ["-", "-", "-"],
       space: ["n", "n", "n"],
       pros: [
         "Used by bult in librays of popular languages to sort",

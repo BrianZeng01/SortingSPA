@@ -206,6 +206,7 @@ class App extends Component {
     console.log(this.state);
   };
 
+  // Used by mergeSort
   merge = async (l, r, arr) => {
     var i = 0;
     var j = 0;
@@ -225,13 +226,14 @@ class App extends Component {
         j += 1;
       }
 
+      this.forceUpdate();
       this.setState({ comparisons: this.state.comparisons + 1 });
       if (!this.state.skip) {
         await this.sleep(this.state.speed);
-        this.forceUpdate();
       }
       k += 1;
     }
+    return arr;
   };
 
   mergeSort = async (arr) => {
@@ -255,6 +257,7 @@ class App extends Component {
     this.setState({ skip: false });
   };
 
+  // Used by quickSort
   partition = (arr, start, end) => {
     var pivot = arr[end];
     var index = start;
@@ -290,6 +293,7 @@ class App extends Component {
     this.setState({ skip: false });
     document.getElementById("skip").onclick = null;
   };
+
   render() {
     return (
       <>

@@ -1,4 +1,8 @@
-### TODO
+## Sorting Visualizer
+
+This application displays animations of common sorting algorithms including selection, insertion, bubble, merge, and quick sort. There are also brief descriptions of each algorithm provided.
+
+## TODO
 
 1.)Finish animation for merge and quick sort.<br />
 2.)Find a way to make animation faster than minimum setTimeout method.<br />

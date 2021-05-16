@@ -26,14 +26,38 @@ const App = () => {
   const [sortingMethod, setSortingMethod] = useState("Selection Sort");
   const [width, setWidth] = useState("10px");
 
+  const changeSort = () => {
+    console.log("sort changed");
+  };
+
+  const changeSize = () => {
+    console.log("size changed");
+  };
+
+  const changeSpeed = () => {
+    console.log("speed changed");
+  };
+
+  const newArray = () => {
+    console.log("new array generated");
+  };
+
+  const sort = () => {
+    console.log("sorting");
+  };
 
   return (
     <>
-      <FeatureBar />
-      <Descriptions
+      <FeatureBar
+        changeSpeed={changeSpeed}
+        changeSize={changeSize}
+        changeSort={changeSort}
+        newArray={newArray}
+        sort={sort}
+        sortInProgress={sortInProgress}
       />
-      <Bars
-      />
+      <Descriptions />
+      <Bars />
     </>
   );
 };

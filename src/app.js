@@ -56,7 +56,7 @@ const App = () => {
         sort={sort}
         sortInProgress={sortInProgress}
       />
-      <Descriptions />
+      <Descriptions sortingMethod={sortingMethod} />
       <Bars />
     </>
   );

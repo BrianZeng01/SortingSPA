@@ -57,7 +57,15 @@ const App = () => {
         sortInProgress={sortInProgress}
       />
       <Descriptions sortingMethod={sortingMethod} />
-      <Bars />
+      <Bars
+        array={array}
+        indexCompleted={indexCompleted}
+        indexSelected={indexSelected}
+        swaps={swaps}
+        comparisons={comparisons}
+        sortingMethod={sortingMethod}
+        width={width}
+      />
     </>
   );
 };

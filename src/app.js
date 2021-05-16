@@ -26,24 +26,256 @@ const App = () => {
   const [sortingMethod, setSortingMethod] = useState("Selection Sort");
   const [width, setWidth] = useState("10px");
 
-  const changeSort = () => {
+  const sleep = (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
+  const newArray = async () => {
+    setArray(randomArray(arraySize));
+    stateDefaults();
+    console.log("new array generated");
+  };
+
+  const stateDefaults = () => {
+    setIndexSelected(0);
+    sortingMethod === "Bubble Sort"
+      ? setIndexCompleted(arraySize)
+      : setIndexCompleted(0);
+    setSwaps(0);
+    setComparisons(0);
+  };
+
+  const changeSort = async () => {
+    if (!this.state.sortInProgress) {
+      setSortingMethod(document.querySelector("#sortingMethod").value);
+      await sleep(20);
+      sortingMethod === "Bubble Sort"
+        ? setIndexCompleted(arraySize)
+        : setIndexCompleted(0);
+    } else {
+      await sleep(250);
+      changeSort();
+    }
     console.log("sort changed");
   };
 
-  const changeSize = () => {
+  const changeSize = async () => {
+    if (!sortInProgress) {
+      let size = document.querySelector("#size").value;
+      setArraySize(size);
+      if (size === "50") {
+        setWidth("5px");
+      } else if (size === "30") {
+        setWidth("10px");
+      } else {
+        setWidth("30px");
+      }
+      await this.sleep(0);
+      newArray();
+    } else {
+      await this.sleep(1000);
+      changeSize();
+    }
     console.log("size changed");
   };
 
   const changeSpeed = () => {
+    setSpeed(document.querySelector("#speed").value);
     console.log("speed changed");
   };
 
-  const newArray = () => {
-    console.log("new array generated");
+  const sort = async () => {
+    setSortInProgress(true);
+    stateDefaults();
+    document.querySelector("#skip").onclick = () => skip();
+    await sleep();
+
+    let method = sortingMethod;
+    let arr = array;
+    if (method === "Selection Sort") {
+      selectionSort(arr);
+    } else if (method === "Insertion Sort") {
+      insertionSort(arr);
+    } else if (method === "Bubble Sort") {
+      bubbleSort(arr);
+    } else if (method === "Merge Sort") {
+      mergeSort(arr, 1);
+    } else {
+      quickSort(arr, 0, arraySize - 1);
+    }
+    console.log("sorting");
   };
 
-  const sort = () => {
-    console.log("sorting");
+const selectionSort = async (arr) => {
+    let min = 2500;
+    let minIndex = 0;
+    for (let i = 0; i < arr.length; i++) {
+      minIndex = i;
+      min = arr[i];
+      for (let k = i + 1; k < arr.length; k++) {
+        if (arr[k] < min) {
+          min = arr[k];
+          minIndex = k;
+        }
+        setComparisons(  comparisons + 1 );
+        setIndexSelected( k );
+        if (!skip) {
+          await sleep(speed);
+        }
+      }
+
+      if (arr[i] !== arr[minIndex]) {
+        setSwaps( swaps + 1 );
+      }
+      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+      setIndexCompleted( indexCompleted + 1 );
+      setArray(  arr );
+    }
+    setIndexSelected(  indexSelected + 1 );
+    setSortInProgress( false );
+    setSkip( false );
+    document.querySelector("#skip").onclick = null;
+  };
+
+  const insertionSort = async (arr) => {
+    document.querySelector("#skip").onclick = () => skip();
+
+    for (var i = 1; i < arraySize; i++) {
+      setIndexSelected( i );
+      for (let k = i; k >= 0; k--) {
+        setComparisons( comparisons + 1 );
+        if (arr[k] < arr[k - 1]) {
+          [arr[k], arr[k - 1]] = [arr[k - 1], arr[k]];
+          setArray(  arr );
+          setIndexSelected( k - 1 );
+          setSwaps(  swaps + 1 );
+        } else {
+          break;
+        }
+        if (!skip) {
+          await sleep(speed);
+        }
+      }
+      setIndexCompleted( i + 2 );
+    }
+    setIndexSelected( i );
+    setSkip(  false );
+    setSortInProgress(  false );
+    document.querySelector("#skip").onclick = null;
+  };
+
+  const bubbleSort = async (arr) => {
+    let index = arraySize;
+    let swapped = true;
+    setIndexCompleted( index );
+    while (swapped) {
+      swapped = false;
+      setIndexCompleted( index );
+      for (let i = 0; i < index - 1; i++) {
+        if (arr[i] > arr[i + 1]) {
+          [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+          setSwaps( swaps + 1 );
+          swapped = true;
+        }
+        setComparisons( comparisons + 1 );
+        if (!skip) {
+          await sleep(speed);
+          setIndexSelected( i );
+        }
+      }
+      index -= 1;
+    }
+    setArray( arr );
+    setIndexSelected(  -1 );
+    setIndexCompleted( 0 );
+    setSortInProgress(  false );
+    setSkip(  false );
+    document.querySelector("#skip").onclick = null;
+  };
+
+  // Used by mergeSort
+  const merge = async (l, r, arr) => {
+    let i = 0;
+    let j = 0;
+    let k = 0;
+    while (i < l.length || j < r.length) {
+      if (i >= l.length) {
+        arr[k] = r[j];
+        j += 1;
+      } else if (j >= r.length) {
+        arr[k] = l[i];
+        i += 1;
+      } else if (l[i] <= r[j]) {
+        arr[k] = l[i];
+        i += 1;
+      } else {
+        arr[k] = r[j];
+        j += 1;
+      }
+
+      setComparisons(  comparisons + 1 );
+      if (!skip) {
+        await sleep(speed);
+      }
+      k += 1;
+    }
+    return arr;
+  };
+
+  const mergeSort = async (arr) => {
+    let len = arr.length;
+    let mid = Math.floor(len / 2);
+    if (len < 2) {
+      return;
+    }
+
+    let l = arr.slice(0, mid);
+    let r = arr.slice(mid, len);
+
+    mergeSort(l);
+    mergeSort(r);
+    merge(l, r, arr);
+    setArray( arr );
+
+    document.querySelector("#skip").onclick = null;
+    setSortInProgress(  false );
+    setIndexCompleted(  arraySize );
+    setSkip(  false );
+  };
+
+  // Used by quickSort
+  const partition = (arr, start, end) => {
+    let pivot = arr[end];
+    let index = start;
+    for (let i = start; i < end; i++) {
+      if (arr[i] <= pivot) {
+        [arr[i], arr[index]] = [arr[index], arr[i]];
+        index += 1;
+      }
+      setComparisons( comparisons + 1 );
+      setSwaps(  swaps + 1 );
+    }
+    [arr[index], arr[end]] = [arr[end], arr[index]];
+    setSwaps(  swaps + 1 );
+    setArray(  arr );
+    setIndexSelected(  index );
+    return index;
+  };
+
+  const quickSort = async (arr, start, end) => {
+    if (start < end) {
+      let pIndex = partition(arr, start, end);
+      if (!skip) {
+        await sleep(speed * 20 + 200);
+      }
+      quickSort(arr, start, pIndex - 1);
+      quickSort(arr, pIndex + 1, end);
+      setArray( arr );
+    }
+    setIndexCompleted( arraySize );
+    setSortInProgress(  false );
+    setSkip( false );
+    document.querySelector("#skip").onclick = null;
   };
 
   return (

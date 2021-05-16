@@ -150,7 +150,7 @@ class App extends Component {
   insertionSort = async (arr) => {
     document.getElementById("skip").onclick = this.skip;
 
-    for (let i = 1; i < this.state.arraySize; i++) {
+    for (var i = 1; i < this.state.arraySize; i++) {
       this.setState({ indexSelected: i });
       for (let k = i; k >= 0; k--) {
         this.setState({ comparisons: this.state.comparisons + 1 });

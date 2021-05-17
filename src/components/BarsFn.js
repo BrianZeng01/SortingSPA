@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 const Bars = ({array ,swaps, comparisons, sortingMethod, indexSelected, indexCompleted, width}) => {
+  useEffect(() => {
+
+  },[indexSelected,indexCompleted,swaps,comparisons])
+
   return (
     <div className="animation">
       <div className="data">
